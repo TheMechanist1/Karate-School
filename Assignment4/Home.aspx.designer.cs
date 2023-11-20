@@ -7,20 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Assignment4
+namespace Assignment4.webpages
 {
 
 
-    public partial class SiteMaster
+    public partial class WebForm1
     {
 
         /// <summary>
-        /// MainContent control.
+        /// Login2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.Login Login2;
     }
 }

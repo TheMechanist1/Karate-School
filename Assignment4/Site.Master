@@ -53,6 +53,10 @@
                         <li><a runat="server" href="~/">Home</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
+                        <li><a runat="server" href="~/Admin/admin.aspx">Admin</a></li>
+                        <li><a runat="server" href="~/Instructor/instructor.aspx">Instructor</a></li>
+                        <li><a runat="server" href="~/Member/member.aspx">Member</a></li>
+
                     </ul>
                 </div>
             </div>
