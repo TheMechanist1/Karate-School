@@ -104,9 +104,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
-    <Content Include="Add.aspx" />
+    <Content Include="Instructor\Add.aspx" />
     <Content Include="Admin\admin.aspx" />
-    <Content Include="Assign.aspx" />
+    <Content Include="Instructor\Assign.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -114,7 +114,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
-    <Content Include="Delete.aspx" />
+    <Content Include="Instructor\Delete.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -136,6 +136,7 @@
     <None Include="Karate.dbml.layout">
       <DependentUpon>Karate.dbml</DependentUpon>
     </None>
+    <Content Include="main.css" />
     <Content Include="Member\Web.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Home.aspx" />
@@ -177,11 +178,11 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Add.aspx.cs">
+    <Compile Include="Instructor\Add.aspx.cs">
       <DependentUpon>Add.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Add.aspx.designer.cs">
+    <Compile Include="Instructor\Add.aspx.designer.cs">
       <DependentUpon>Add.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\admin.aspx.cs">
@@ -200,11 +201,11 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Assign.aspx.cs">
+    <Compile Include="Instructor\Assign.aspx.cs">
       <DependentUpon>Assign.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Assign.aspx.designer.cs">
+    <Compile Include="Instructor\Assign.aspx.designer.cs">
       <DependentUpon>Assign.aspx</DependentUpon>
     </Compile>
     <Compile Include="Contact.aspx.cs">
@@ -221,11 +222,11 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Delete.aspx.cs">
+    <Compile Include="Instructor\Delete.aspx.cs">
       <DependentUpon>Delete.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Delete.aspx.designer.cs">
+    <Compile Include="Instructor\Delete.aspx.designer.cs">
       <DependentUpon>Delete.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -244,6 +245,9 @@
     </Compile>
     <Compile Include="Instructor\instructor.aspx.designer.cs">
       <DependentUpon>instructor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Karate.cs">
+      <DependentUpon>Karate.dbml</DependentUpon>
     </Compile>
     <Compile Include="Karate.designer.cs">
       <AutoGen>True</AutoGen>

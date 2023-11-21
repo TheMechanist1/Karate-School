@@ -22,13 +22,13 @@
     </asp:GridView>
     <br />
     <br />
-    <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/webpages/Add.aspx">Add Instructor/Member</asp:HyperLink>
+    <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Instructor/Add.aspx">Add Instructor/Member</asp:HyperLink>
     <br />
     <br />
     <br />
-    <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/webpages/Delete.aspx">Delete Instructor/Member</asp:HyperLink>
+    <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Instructor/Delete.aspx">Delete Instructor/Member</asp:HyperLink>
     <br />
     <br />
     <br />
-    <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/webpages/Assign.aspx">Assign Section</asp:HyperLink>
+    <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/Instructor/Assign.aspx">Assign Section</asp:HyperLink>
 </asp:Content>

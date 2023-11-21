@@ -42,9 +42,15 @@ namespace Assignment4
     partial void InsertSection(Section instance);
     partial void UpdateSection(Section instance);
     partial void DeleteSection(Section instance);
-    #endregion
-		
-		public KarateDataContext(string connection) : 
+        #endregion
+
+        public KarateDataContext() :
+        base("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Mechanist\\Downloads\\KarateSchool(1).mdf;Integrated Security=True;Connect Timeout=30;Encrypt=False", mappingSource)
+        {
+            OnCreated();
+        }
+
+        public KarateDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
@@ -115,11 +121,9 @@ namespace Assignment4
 		
 		private string _UserType;
 		
-		private EntityRef<Member> _Member;
+		private EntitySet<Member> _Members;
 		
-		private EntityRef<Instructor> _Instructor;
-		
-		private EntitySet<Section> _Sections;
+		private EntitySet<Instructor> _Instructors;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -137,9 +141,8 @@ namespace Assignment4
 		
 		public NetUser()
 		{
-			this._Member = default(EntityRef<Member>);
-			this._Instructor = default(EntityRef<Instructor>);
-			this._Sections = new EntitySet<Section>(new Action<Section>(this.attach_Sections), new Action<Section>(this.detach_Sections));
+			this._Members = new EntitySet<Member>(new Action<Member>(this.attach_Members), new Action<Member>(this.detach_Members));
+			this._Instructors = new EntitySet<Instructor>(new Action<Instructor>(this.attach_Instructors), new Action<Instructor>(this.detach_Instructors));
 			OnCreated();
 		}
 		
@@ -223,74 +226,29 @@ namespace Assignment4
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NetUser_Member", Storage="_Member", ThisKey="UserID", OtherKey="Member_UserID", IsUnique=true, IsForeignKey=false)]
-		public Member Member
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NetUser_Member", Storage="_Members", ThisKey="UserID", OtherKey="Member_UserID")]
+		public EntitySet<Member> Members
 		{
 			get
 			{
-				return this._Member.Entity;
+				return this._Members;
 			}
 			set
 			{
-				Member previousValue = this._Member.Entity;
-				if (((previousValue != value) 
-							|| (this._Member.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Member.Entity = null;
-						previousValue.NetUser = null;
-					}
-					this._Member.Entity = value;
-					if ((value != null))
-					{
-						value.NetUser = this;
-					}
-					this.SendPropertyChanged("Member");
-				}
+				this._Members.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NetUser_Instructor", Storage="_Instructor", ThisKey="UserID", OtherKey="InstructorID", IsUnique=true, IsForeignKey=false)]
-		public Instructor Instructor
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NetUser_Instructor", Storage="_Instructors", ThisKey="UserID", OtherKey="InstructorID")]
+		public EntitySet<Instructor> Instructors
 		{
 			get
 			{
-				return this._Instructor.Entity;
+				return this._Instructors;
 			}
 			set
 			{
-				Instructor previousValue = this._Instructor.Entity;
-				if (((previousValue != value) 
-							|| (this._Instructor.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Instructor.Entity = null;
-						previousValue.NetUser = null;
-					}
-					this._Instructor.Entity = value;
-					if ((value != null))
-					{
-						value.NetUser = this;
-					}
-					this.SendPropertyChanged("Instructor");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NetUser_Section", Storage="_Sections", ThisKey="UserID", OtherKey="Instructor_ID")]
-		public EntitySet<Section> Sections
-		{
-			get
-			{
-				return this._Sections;
-			}
-			set
-			{
-				this._Sections.Assign(value);
+				this._Instructors.Assign(value);
 			}
 		}
 		
@@ -314,13 +272,25 @@ namespace Assignment4
 			}
 		}
 		
-		private void attach_Sections(Section entity)
+		private void attach_Members(Member entity)
 		{
 			this.SendPropertyChanging();
 			entity.NetUser = this;
 		}
 		
-		private void detach_Sections(Section entity)
+		private void detach_Members(Member entity)
+		{
+			this.SendPropertyChanging();
+			entity.NetUser = null;
+		}
+		
+		private void attach_Instructors(Instructor entity)
+		{
+			this.SendPropertyChanging();
+			entity.NetUser = this;
+		}
+		
+		private void detach_Instructors(Instructor entity)
 		{
 			this.SendPropertyChanging();
 			entity.NetUser = null;
@@ -345,7 +315,7 @@ namespace Assignment4
 		
 		private string _MemberEmail;
 		
-		private EntitySet<Section> _Sections;
+		private EntityRef<Section> _Sections;
 		
 		private EntityRef<NetUser> _NetUser;
 		
@@ -369,7 +339,7 @@ namespace Assignment4
 		
 		public Member()
 		{
-			this._Sections = new EntitySet<Section>(new Action<Section>(this.attach_Sections), new Action<Section>(this.detach_Sections));
+			this._Sections = default(EntityRef<Section>);
 			this._NetUser = default(EntityRef<NetUser>);
 			OnCreated();
 		}
@@ -498,16 +468,32 @@ namespace Assignment4
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Member_Section", Storage="_Sections", ThisKey="Member_UserID", OtherKey="Member_ID")]
-		public EntitySet<Section> Sections
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Member_Section", Storage="_Sections", ThisKey="Member_UserID", OtherKey="Member_ID", IsUnique=true, IsForeignKey=false)]
+		public Section Sections
 		{
 			get
 			{
-				return this._Sections;
+				return this._Sections.Entity;
 			}
 			set
 			{
-				this._Sections.Assign(value);
+				Section previousValue = this._Sections.Entity;
+				if (((previousValue != value) 
+							|| (this._Sections.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Sections.Entity = null;
+						previousValue.Member = null;
+					}
+					this._Sections.Entity = value;
+					if ((value != null))
+					{
+						value.Member = this;
+					}
+					this.SendPropertyChanged("Sections");
+				}
 			}
 		}
 		
@@ -528,12 +514,12 @@ namespace Assignment4
 					if ((previousValue != null))
 					{
 						this._NetUser.Entity = null;
-						previousValue.Member = null;
+						previousValue.Members.Remove(this);
 					}
 					this._NetUser.Entity = value;
 					if ((value != null))
 					{
-						value.Member = this;
+						value.Members.Add(this);
 						this._Member_UserID = value.UserID;
 					}
 					else
@@ -564,18 +550,6 @@ namespace Assignment4
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-		
-		private void attach_Sections(Section entity)
-		{
-			this.SendPropertyChanging();
-			entity.Member = this;
-		}
-		
-		private void detach_Sections(Section entity)
-		{
-			this.SendPropertyChanging();
-			entity.Member = null;
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Instructor")]
@@ -591,6 +565,8 @@ namespace Assignment4
 		private string _InstructorLastName;
 		
 		private string _InstructorPhoneNumber;
+		
+		private EntityRef<Section> _Sections;
 		
 		private EntityRef<NetUser> _NetUser;
 		
@@ -610,6 +586,7 @@ namespace Assignment4
 		
 		public Instructor()
 		{
+			this._Sections = default(EntityRef<Section>);
 			this._NetUser = default(EntityRef<NetUser>);
 			OnCreated();
 		}
@@ -698,6 +675,35 @@ namespace Assignment4
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Instructor_Section", Storage="_Sections", ThisKey="InstructorID", OtherKey="Instructor_ID", IsUnique=true, IsForeignKey=false)]
+		public Section Sections
+		{
+			get
+			{
+				return this._Sections.Entity;
+			}
+			set
+			{
+				Section previousValue = this._Sections.Entity;
+				if (((previousValue != value) 
+							|| (this._Sections.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Sections.Entity = null;
+						previousValue.Instructor = null;
+					}
+					this._Sections.Entity = value;
+					if ((value != null))
+					{
+						value.Instructor = this;
+					}
+					this.SendPropertyChanged("Sections");
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NetUser_Instructor", Storage="_NetUser", ThisKey="InstructorID", OtherKey="UserID", IsForeignKey=true)]
 		public NetUser NetUser
 		{
@@ -715,12 +721,12 @@ namespace Assignment4
 					if ((previousValue != null))
 					{
 						this._NetUser.Entity = null;
-						previousValue.Instructor = null;
+						previousValue.Instructors.Remove(this);
 					}
 					this._NetUser.Entity = value;
 					if ((value != null))
 					{
-						value.Instructor = this;
+						value.Instructors.Add(this);
 						this._InstructorID = value.UserID;
 					}
 					else
@@ -771,9 +777,9 @@ namespace Assignment4
 		
 		private decimal _SectionFee;
 		
-		private EntityRef<NetUser> _NetUser;
-		
 		private EntityRef<Member> _Member;
+		
+		private EntityRef<Instructor> _Instructor;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -795,8 +801,8 @@ namespace Assignment4
 		
 		public Section()
 		{
-			this._NetUser = default(EntityRef<NetUser>);
 			this._Member = default(EntityRef<Member>);
+			this._Instructor = default(EntityRef<Instructor>);
 			OnCreated();
 		}
 		
@@ -895,7 +901,7 @@ namespace Assignment4
 			{
 				if ((this._Instructor_ID != value))
 				{
-					if (this._NetUser.HasLoadedOrAssignedValue)
+					if (this._Instructor.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -928,40 +934,6 @@ namespace Assignment4
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NetUser_Section", Storage="_NetUser", ThisKey="Instructor_ID", OtherKey="UserID", IsForeignKey=true)]
-		public NetUser NetUser
-		{
-			get
-			{
-				return this._NetUser.Entity;
-			}
-			set
-			{
-				NetUser previousValue = this._NetUser.Entity;
-				if (((previousValue != value) 
-							|| (this._NetUser.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._NetUser.Entity = null;
-						previousValue.Sections.Remove(this);
-					}
-					this._NetUser.Entity = value;
-					if ((value != null))
-					{
-						value.Sections.Add(this);
-						this._Instructor_ID = value.UserID;
-					}
-					else
-					{
-						this._Instructor_ID = default(int);
-					}
-					this.SendPropertyChanged("NetUser");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Member_Section", Storage="_Member", ThisKey="Member_ID", OtherKey="Member_UserID", IsForeignKey=true)]
 		public Member Member
 		{
@@ -979,12 +951,12 @@ namespace Assignment4
 					if ((previousValue != null))
 					{
 						this._Member.Entity = null;
-						previousValue.Sections.Remove(this);
+						previousValue.Sections = null;
 					}
 					this._Member.Entity = value;
 					if ((value != null))
 					{
-						value.Sections.Add(this);
+						value.Sections = this;
 						this._Member_ID = value.Member_UserID;
 					}
 					else
@@ -992,6 +964,40 @@ namespace Assignment4
 						this._Member_ID = default(int);
 					}
 					this.SendPropertyChanged("Member");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Instructor_Section", Storage="_Instructor", ThisKey="Instructor_ID", OtherKey="InstructorID", IsForeignKey=true)]
+		public Instructor Instructor
+		{
+			get
+			{
+				return this._Instructor.Entity;
+			}
+			set
+			{
+				Instructor previousValue = this._Instructor.Entity;
+				if (((previousValue != value) 
+							|| (this._Instructor.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Instructor.Entity = null;
+						previousValue.Sections = null;
+					}
+					this._Instructor.Entity = value;
+					if ((value != null))
+					{
+						value.Sections = this;
+						this._Instructor_ID = value.InstructorID;
+					}
+					else
+					{
+						this._Instructor_ID = default(int);
+					}
+					this.SendPropertyChanged("Instructor");
 				}
 			}
 		}
