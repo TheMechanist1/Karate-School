@@ -21,6 +21,6 @@
     <br />
     <br />
     <br />
-    Sections Availiable<asp:GridView ID="GridView1" runat="server">
+    Sections Availiable<asp:GridView ID="GridView1" runat="server" Width="467px">
     </asp:GridView>
 </asp:Content>

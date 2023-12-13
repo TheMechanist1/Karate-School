@@ -72,7 +72,7 @@ namespace Assignment4.webpages
                     Response.Redirect("~/Admin/admin.aspx");
                 }
                 else
-                    Response.Redirect("Logon.aspx", true);
+                    Response.Redirect("Home.aspx", true);
 
                 } catch (Exception ex) 
                 {

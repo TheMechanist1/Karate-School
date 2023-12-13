@@ -23,6 +23,7 @@
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
+    <form runat="server">
                <nav class="navbar navbar-expand-md">
 	<a class="navbar-brand" href="#">Karate School</a><br />
 	<button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
@@ -38,8 +39,8 @@
             <li><a runat="server" href="~/Member/member.aspx"> Member </a></li>
 		</ul>
 	</div>
+                   <asp:LoginStatus ID="LoginStatus1" runat="server" />
 </nav>
-    <form runat="server">
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>

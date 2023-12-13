@@ -14,11 +14,11 @@
 <body>
 </body>
     <br />
-    Current Memeber Info<asp:GridView ID="GridView2" runat="server">
+    Current Memeber Info<asp:GridView ID="MembersGridView" runat="server">
     </asp:GridView>
     <br />
     <br />
-    Current Instructor Info<asp:GridView ID="GridView3" runat="server">
+    Current Instructor Info<asp:GridView ID="InstructorsGridView" runat="server">
     </asp:GridView>
     <br />
     <br />
